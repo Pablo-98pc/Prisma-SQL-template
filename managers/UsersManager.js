@@ -63,4 +63,17 @@ const LoginUser = async (body) => {
             
 }
 
-module.exports = {createUser,LoginUser}
+const autoCompleteUser = (body) => {
+    const {name} = body
+    const users = prisma.user.findMany({
+        where:{
+            name: {
+                startsWith : name,
+                mode:'insensitive'
+            }
+        }
+    })
+    return users
+}
+
+module.exports = {createUser,LoginUser,autoCompleteUser}
